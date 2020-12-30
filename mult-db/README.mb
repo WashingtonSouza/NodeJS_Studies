@@ -1,0 +1,3 @@
+### File information ###
+
+docker run --name postgres -e POSTGRES_USER=<User> -e POSTGRES_PASSWORD=<Password> -e POSTGRES_DB= <dbName> -p 5432:5432 -d postgres
