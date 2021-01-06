@@ -1,0 +1,18 @@
+{
+  "name": "mult-db",
+  "version": "1.0.0",
+  "description": "##Postgres docker run --name postgres -e POSTGRES_USER=<User> -e POSTGRES_PASSWORD=<Password> -e POSTGRES_DB=<dbName> -p 5432:5432 -d postgres docker run --name adminer -p 8080:8080 --link postgres:postgres -d adminer",
+  "main": "index.js",
+  "dependencies": {
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
