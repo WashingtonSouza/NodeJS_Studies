@@ -2,3 +2,6 @@
 myComand.txt
 
 node_modules
+
+#private config file
+config.js
