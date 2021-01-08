@@ -14,12 +14,12 @@ describe('Postgres', function () {
     await context.connect()
   })
 
-  it('PostgresSQL Connection', async () => {
+  it('PostgresSQL Connection', async function () {
     const result = await context.isConnected()
     assert.equal(result, true)
   })
 
-  it('Should register a hero', function () {
+  it('Should register a hero', async () => {
     const result = await context.create(HERO_REGISTER_MOCK)
 
     delete result.id
