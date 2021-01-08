@@ -25,4 +25,11 @@ describe('Postgres', function () {
     delete result.id
     assert.deepEqual(result, HERO_REGISTER_MOCK)
   })
+
+  it('Should list heroes', async () => {
+    const [result] = await context.read({ name: HERO_REGISTER_MOCK.name })
+    delete result.id
+
+    assert.deepEqual(result, HERO_REGISTER_MOCK)
+  })
 })

@@ -62,6 +62,10 @@ class PostgresDB extends ICrud {
     const { dataValues } = await this._heroes.create(item)
     return dataValues
   }
+
+  read(item = {}) {
+    return this._heroes.findAll({ where: item, raw: true })
+  }
 }
 
 module.exports = PostgresDB
