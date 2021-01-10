@@ -17,6 +17,7 @@ describe('Postgres', function () {
   this.timeout(Infinity)
   this.beforeAll(async function () {
     await context.connect()
+    await context.delete()
     await context.create(HERO_UPDATE_MOCK)
   })
 
@@ -51,5 +52,12 @@ describe('Postgres', function () {
 
     assert.deepEqual(result, 1)
     assert.deepEqual(updatedItem.name, newItem.name)
+  })
+
+  it('Shout delete a hero', async () => {
+    const [item] = await context.read({})
+    const result = await context.delete(item.id)
+
+    assert.deepEqual(result, 1)
   })
 })
