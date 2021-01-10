@@ -40,13 +40,16 @@ describe('Postgres', function () {
   })
 
   it('Should update a hero', async () => {
-    const [updatedItem] = await context.read({ name: HERO_UPDATE_MOCK.name })
+    const [updateItem] = await context.read({ name: HERO_UPDATE_MOCK.name })
     const newItem = {
       ...HERO_UPDATE_MOCK,
       name: 'Wonder Woman'
     }
 
-    const result = await context.update(updatedItem.id, newItem)
-    assert.deepEqual(result.name, newItem.name)
+    const [result] = await context.update(updateItem.id, newItem)
+    const [updatedItem] = await context.read({ id: updateItem.id })
+
+    assert.deepEqual(result, 1)
+    assert.deepEqual(updatedItem.name, newItem.name)
   })
 })
