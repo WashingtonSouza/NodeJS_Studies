@@ -8,10 +8,16 @@ const HERO_REGISTER_MOCK = {
   power: 'arrow'
 }
 
+const HERO_UPDATE_MOCK = {
+  name: 'Batman',
+  power: 'money'
+}
+
 describe('Postgres', function () {
   this.timeout(Infinity)
   this.beforeAll(async function () {
     await context.connect()
+    await context.create(HERO_UPDATE_MOCK)
   })
 
   it('PostgresSQL Connection', async function () {
@@ -31,5 +37,16 @@ describe('Postgres', function () {
     delete result.id
 
     assert.deepEqual(result, HERO_REGISTER_MOCK)
+  })
+
+  it('Should update a hero', async () => {
+    const [updatedItem] = await context.read({ name: HERO_UPDATE_MOCK.name })
+    const newItem = {
+      ...HERO_UPDATE_MOCK,
+      name: 'Wonder Woman'
+    }
+
+    const result = await context.update(updatedItem.id, newItem)
+    assert.deepEqual(result.name, newItem.name)
   })
 })
