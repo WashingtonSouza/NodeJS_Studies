@@ -26,4 +26,9 @@ describe.only('MongoDB test suite', function () {
     assert.deepEqual({ name, power }, HERO_MOCK_REGISTER)
   })
 
+  it('Should list one hero', async () => {
+    const [{ name, power }] = await context.read({ name: HERO_MOCK_REGISTER.name })
+    assert.deepEqual({ name, power }, HERO_MOCK_REGISTER)
+  })
+
 });
