@@ -4,6 +4,7 @@
   "description": "##Postgres docker run --name postgres -e POSTGRES_USER=<User> -e POSTGRES_PASSWORD=<Password> -e POSTGRES_DB=<dbName> -p 5432:5432 -d postgres docker run --name adminer -p 8080:8080 --link postgres:postgres -d adminer",
   "main": "index.js",
   "dependencies": {
+    "mongoose": "^5.11.11",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.3.5"

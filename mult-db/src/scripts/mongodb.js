@@ -1,6 +1,6 @@
 const Mongoose = require('mongoose')
-const ICrud = require('./interfaces/interfaceCrud')
-const { credential } = require('./../../config')
+const ICrud = require('./../db/strategies/interfaces/interfaceCrud')
+const credential = require('./../config')
 
 const STATUS = {
   0: 'Disconnected',
@@ -24,7 +24,7 @@ class MongoDB extends ICrud {
     if (state !== 'Connecting') return state
 
     await new Promise(resolve => setTimeout(resolve, 1000))
-    return STATUS[this._drive.readyState]
+    return state
   }
 
   connect() {
@@ -37,11 +37,10 @@ class MongoDB extends ICrud {
     const connection = Mongoose.connection
     connection.once('open', () => console.log('Database running'))
     this._drive = connection
-    this.defineModel()
   }
 
   defineModel() {
-    const heroSchema = new Mongoose.Schema({
+    heroSchema = new Mongoose.Schema({
       name: {
         type: String,
         required: true
@@ -59,8 +58,11 @@ class MongoDB extends ICrud {
     this._heroes = Mongoose.model('heroes', heroSchema)
   }
 
-  create(item) {
-    return this._heroes.create(item)
+  async create(item) {
+    const registerResult = await model.create({
+      name: 'Batman',
+      power: 'Money'
+    })
   }
 }
 
