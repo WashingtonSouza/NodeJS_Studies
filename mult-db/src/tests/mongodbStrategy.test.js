@@ -8,9 +8,18 @@ const HERO_MOCK_REGISTER = {
   power: 'tie'
 }
 
+const HERO_MOCK_UPDATE = {
+  name: 'Daffy',
+  power: 'velocity'
+}
+
+let UPDATE_HERO_ID;
+
 describe.only('MongoDB test suite', function () {
   this.beforeAll(async () => {
     await context.connect()
+    const result = await context.create(HERO_MOCK_UPDATE)
+    UPDATE_HERO_ID = result
   })
 
   it('Should verify connection', async () => {
@@ -26,9 +35,18 @@ describe.only('MongoDB test suite', function () {
     assert.deepEqual({ name, power }, HERO_MOCK_REGISTER)
   })
 
-  it('Should list one hero', async () => {
+  it('Should list a hero', async () => {
     const [{ name, power }] = await context.read({ name: HERO_MOCK_REGISTER.name })
+
     assert.deepEqual({ name, power }, HERO_MOCK_REGISTER)
+  })
+
+  it('Should update a hero', async () => {
+    const result = await context.update(UPDATE_HERO_ID, {
+      name: 'Bugs Bunny'
+    })
+
+    assert.deepEqual(result.nModified, 1)
   })
 
 });
