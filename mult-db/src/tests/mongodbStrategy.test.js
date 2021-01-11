@@ -1,6 +1,7 @@
 const assert = require('assert')
 const MongoDb = require('../db/strategies/mongodb')
 const Context = require('../db/strategies/base/contextStrategy')
+const { isRegExp } = require('util')
 
 const context = new Context(new MongoDb())
 const HERO_MOCK_REGISTER = {
@@ -47,6 +48,12 @@ describe.only('MongoDB test suite', function () {
     })
 
     assert.deepEqual(result.nModified, 1)
+  })
+
+  it('Should delete hero', async () => {
+    const result = await context.delete(UPDATE_HERO_ID)
+
+    assert.deepEqual(result.n, 1)
   })
 
 });
