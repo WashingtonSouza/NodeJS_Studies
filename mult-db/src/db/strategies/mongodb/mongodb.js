@@ -1,6 +1,6 @@
 const Mongoose = require('mongoose')
-const ICrud = require('./interfaces/interfaceCrud')
-const { credential } = require('./../../config')
+const ICrud = require('../../strategies/interfaces/interfaceCrud')
+const { credential } = require('../../../config')
 
 const STATUS = {
   0: 'Disconnected',
@@ -10,24 +10,24 @@ const STATUS = {
 }
 
 class MongoDB extends ICrud {
-  constructor() {
+  constructor(connection, schema) {
     super()
 
-    this._heroes = null
-    this._drive = null
+    this._schema = schema
+    this._connection = connection
   }
 
   async isConnected() {
-    const state = STATUS[this._drive.readyState]
+    const state = STATUS[this._connection.readyState]
     if (state === 'Connected') return state
 
     if (state !== 'Connecting') return state
 
     await new Promise(resolve => setTimeout(resolve, 1000))
-    return STATUS[this._drive.readyState]
+    return STATUS[this._connection.readyState]
   }
 
-  connect() {
+  static connect() {
     const connectInfo = `mongodb://${credential.mongoUser}:${credential.mongoPassword}@localhost:27017/heroes`
     Mongoose.connect(connectInfo, { useNewUrlParser: true }, function (error) {
       if (!error) return
@@ -36,43 +36,23 @@ class MongoDB extends ICrud {
 
     const connection = Mongoose.connection
     connection.once('open', () => console.log('Database running'))
-    this._drive = connection
-    this.defineModel()
-  }
-
-  defineModel() {
-    const heroSchema = new Mongoose.Schema({
-      name: {
-        type: String,
-        required: true
-      },
-      power: {
-        type: String,
-        required: true
-      },
-      insertedAt: {
-        type: Date,
-        default: new Date()
-      }
-    })
-
-    this._heroes = Mongoose.model('heroes', heroSchema)
+    return connection
   }
 
   create(item) {
-    return this._heroes.create(item)
+    return this._schema.create(item)
   }
 
   read(item, skip = 0, limit = 10) {
-    return this._heroes.find(item).skip(skip).limit(limit)
+    return this._schema.find(item).skip(skip).limit(limit)
   }
 
   update(id, item) {
-    return this._heroes.updateOne({ _id: id }, { $set: item })
+    return this._schema.updateOne({ _id: id }, { $set: item })
   }
 
   delete(id) {
-    return this._heroes.deleteOne({ _id: id })
+    return this._schema.deleteOne({ _id: id })
   }
 }
 

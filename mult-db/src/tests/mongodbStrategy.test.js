@@ -1,9 +1,9 @@
 const assert = require('assert')
-const MongoDb = require('../db/strategies/mongodb')
+const MongoDb = require('../db/strategies/mongodb/mongodb')
 const Context = require('../db/strategies/base/contextStrategy')
-const { isRegExp } = require('util')
+const HeroiSchema = require(`./../db/strategies/mongodb/schemas/herosSchema`)
 
-const context = new Context(new MongoDb())
+let context = {}
 const HERO_MOCK_REGISTER = {
   name: 'Wonder Woman',
   power: 'tie'
@@ -18,7 +18,9 @@ let UPDATE_HERO_ID;
 
 describe.only('MongoDB test suite', function () {
   this.beforeAll(async () => {
-    await context.connect()
+    const connection = MongoDb.connect()
+    context = new Context(new MongoDb(connection, HeroiSchema))
+
     const result = await context.create(HERO_MOCK_UPDATE)
     UPDATE_HERO_ID = result
   })
