@@ -1,9 +1,8 @@
 const assert = require('assert')
 const api = require('./../api');
-const { isArray } = require('util');
 
 let app = {}
-describe.only('Test suit for Hero api', async function () {
+describe('Test suit for Hero api', async function () {
   this.beforeAll(async () => {
     app = await api
   })
