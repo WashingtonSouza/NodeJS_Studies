@@ -5,7 +5,7 @@ const HeroiSchema = require(`./../db/strategies/mongodb/schemas/herosSchema`)
 
 let context = {}
 const HERO_MOCK_REGISTER = {
-  name: 'Wonder Woman',
+  name: `Wonder Woman-${Date.now()}`,
   power: 'tie'
 }
 
